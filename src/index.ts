@@ -9,7 +9,7 @@ const port = process.env.PORT || 5000;
 app.use(express.json());
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Hello word");
+  res.send({ message: "hello world!" });
 });
 
 app.listen(port, () => {
