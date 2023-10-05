@@ -8,7 +8,6 @@ import PaymentService from "./PaymentService";
 export default class CheckoutService {
   private prisma: PrismaClient;
 
-  // new CheckoutService()
   constructor() {
     this.prisma = new PrismaClient();
   }
@@ -18,8 +17,6 @@ export default class CheckoutService {
     customer: CustomerData,
     payment: PaymentData
   ): Promise<{ id: number; transactionId: string; status: string }> {
-    // TODO: "puxar" os dados de snacks do BD
-    // in: [1,2,3,4]
     const snacks = await this.prisma.snack.findMany({
       where: {
         id: {
@@ -27,7 +24,6 @@ export default class CheckoutService {
         },
       },
     });
- 
 
     const snacksInCart = snacks.map<SnackData>((snack) => ({
       ...snack,
@@ -37,17 +33,11 @@ export default class CheckoutService {
         cart.find((item) => item.id === snack.id)?.quantity! *
         Number(snack.price),
     }));
-    
 
-    // TODO: registrar os dados do cliente no BD
     const customerCreated = await this.createCustomer(customer);
-    // console.log(`customerCreated`, customerCreated)
 
-    // TODO: criar uma order orderitem
     let orderCreated = await this.createOrder(snacksInCart, customerCreated);
-    // console.log(`orderCreated`, orderCreated)
 
-    // TODO: processar o pagamento
     const { transactionId, status } = await new PaymentService().process(
       orderCreated,
       customerCreated,
