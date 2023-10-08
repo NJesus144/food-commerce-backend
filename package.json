@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "rimraf ./build && tsc",
+    "build": "rimraf ./dist && tsc",
     "dev": "nodemon",
-    "start": "node build/index.js",
+    "start": "node dist/index.js",
     "db:format": "prisma format",
     "db:migrate": "prisma migrate dev",
     "db:seed": "prisma db seed"
